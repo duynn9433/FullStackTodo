@@ -1,45 +1,44 @@
-import React, {useState} from 'react';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import HeaderComponent from "./HeaderComponent";
+import LoginComponent from "./LoginComponent";
+import ErrorComponent from "./ErrorComponent";
+import WelcomeComponent from "./WelcomeComponent";
+import ListTodosComponent from "./ListTodosComponent";
+import LogoutComponent from "./LogoutComponent";
+import FooterComponent from "./FooterComponent";
+import AuthProvider from "./security/AuthContext";
 
-function TodoApp(props) {
+function TodoApp() {
     return (
         <div className="TodoApp">
-            <h1>Todo Management Application</h1>
-            <LoginComponent/>
-            {/*<WelcomeComponent/>*/}
+            <AuthProvider>
+                <BrowserRouter>
+                    <HeaderComponent/>
+                    <Routes>
+                        <Route path={"/"} element={<LoginComponent/>}/>\
+                        <Route path={"*"} element={<ErrorComponent/>}/>
+                        <Route path={"/login"} element={<LoginComponent/>}/>
+                        <Route path={"/welcome/:username"} element={<WelcomeComponent/>}/>
+                        <Route path={"/todos"} element={<ListTodosComponent/>}/>
+                        <Route path={"/logout"} element={<LogoutComponent/>}/>
+                    </Routes>
+                    <FooterComponent/>
+                </BrowserRouter>
+            </AuthProvider>
         </div>
     );
 }
 
-function LoginComponent() {
-    const [username, setUsername] = useState("duynn");
-    const [password, setPassword] = useState("123456");
 
-    function handleUsernameChange(event) {
-        setUsername(event.target.value);
-    }
 
-    return <div className={"Login"}>
-        <div className="container d-flex justify-content-center min-vh-100 align-items-center">
-            <form>
-                <div className="mb-3">
-                    <label htmlFor="username" className="form-label">Username</label>
-                    <input type="text" className="form-control" id="username" value={username}
-                           onChange={handleUsernameChange}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="password" value={password}
-                           onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-}
 
-function WelcomeComponent() {
-    return <div className={"Welcome"}>Welcome component</div>
-}
+
+
+
+
+
+
+
 
 export default TodoApp;
 
