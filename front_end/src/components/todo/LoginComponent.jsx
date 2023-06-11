@@ -16,8 +16,8 @@ function LoginComponent() {
     }
 
 
-    function checkLogin() {
-        if (authContext.login(username, password)) {
+    async function checkLogin() {
+        if (await authContext.login(username, password)) {
             setHasLoginFailed(false);
             navigate(`/welcome/${username}`);
         } else {
